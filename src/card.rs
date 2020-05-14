@@ -3,14 +3,17 @@ use super::*;
 use player::*;
 use map::*;
 
+#[derive(Debug)]
 pub enum Symbol {
     Cannon,
     Ship,
     Balloon,
+    Wildcard
 }
 
 pub type ExchangeCount = usize;
 
+#[derive(Debug)]
 pub struct Card {
     country: Country,
     symbol: Symbol,
@@ -23,16 +26,17 @@ impl Card {
         unimplemented!()
     }
 
-    pub fn use_card(self: &mut Self) {
+    pub fn use_card(&mut self) {
         assert_eq!(self.used, false);
         self.used = true;
     }
 
-    pub fn is_used(self: &Self) -> bool {
+    pub fn is_used(&self) -> bool {
         self.used
     }
 }
 
+#[derive(Debug)]
 pub struct CardState {
     card_pool: Vec<Card>,
     player_hands: HashMap<Player, Vec<Card>>,
@@ -41,7 +45,11 @@ pub struct CardState {
 
 impl CardState {
     pub fn new() -> Self {
-        unimplemented!()
+        Self {
+            card_pool: vec![],
+            player_hands: HashMap::new(),
+            player_exchanges: HashMap::new(),
+        }
     }
 }
 

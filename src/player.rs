@@ -1,7 +1,8 @@
 use super::*;
 use objective::Objective;
+use serde::{Serialize};
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash, Serialize)]
 pub enum Player {
     Red,
     Blue,
@@ -11,11 +12,11 @@ pub enum Player {
     Black
 }
 
+#[derive(Debug)]
 pub struct PlayerInfo {
     color: Player,
     name: String,
     objective: Objective
-    // cards
 }
 
 impl PlayerInfo {
@@ -24,5 +25,8 @@ impl PlayerInfo {
             color, name,
             objective: Objective::new()
         }
+    }
+    pub fn get_color(&self) -> Player {
+        self.color
     }
 }
