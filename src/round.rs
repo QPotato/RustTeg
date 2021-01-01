@@ -25,7 +25,7 @@ pub enum Turn {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 enum RoundType {
     FirstAdd,
     SecondAdd,
@@ -33,7 +33,7 @@ enum RoundType {
     NormalAdd
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Round {
     roundtype: RoundType,
     order: Vec<Player>,

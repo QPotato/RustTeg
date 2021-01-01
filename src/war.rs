@@ -20,6 +20,6 @@ pub fn attack(map: &Map, attacker: Country, defender: Country) -> AttackResult {
     let d2 = vec![1, 1, 1];
 
 
-    return (3, 0)
+    (3, 0)
 }
 

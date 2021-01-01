@@ -3,30 +3,18 @@
 
 #[macro_use] extern crate rocket;
 #[macro_use] extern crate rocket_contrib;
-#[macro_use] extern crate serde_derive;
+// #[macro_use] extern crate serde_derive;
 extern crate rusteg;
 
 // #[cfg(test)] mod tests;
 
 use std::sync::Mutex;
-use std::collections::HashMap;
 
 use rocket::State;
 use rocket_contrib::json::{Json, JsonValue};
 
-use rusteg::{start}
+use rusteg::{start, Game};
 
-// // The type to represent the ID of a message.
-// type ID = usize;
-
-// // We're going to store all of the messages here. No need for a DB.
-// type MessageMap = Mutex<HashMap<ID, String>>;
-
-// #[derive(Serialize, Deserialize)]
-// struct Message {
-//     id: Option<ID>,
-//     contents: String
-// }
 
 // // TODO: This example can be improved by using `route` with multiple HTTP verbs.
 // #[post("/<id>", format = "json", data = "<message>")]
@@ -43,26 +31,9 @@ use rusteg::{start}
 //     }
 // }
 
-// #[put("/<id>", format = "json", data = "<message>")]
-// fn update(id: ID, message: Json<Message>, map: State<'_, MessageMap>) -> Option<JsonValue> {
-//     let mut hashmap = map.lock().unwrap();
-//     if hashmap.contains_key(&id) {
-//         hashmap.insert(id, message.0.contents);
-//         Some(json!({ "status": "ok" }))
-//     } else {
-//         None
-//     }
-// }
-
-#[get("/map", format = "json")]
-fn get_map() -> Option<Json<Map>> {
-    let hashmap = map.lock().unwrap();
-    hashmap.get(&id).map(|contents| {
-        Json(Message {
-            id: Some(id),
-            contents: contents.clone()
-        })
-    })
+#[get("/game", format = "json")]
+fn get(game: State<'_, Game>) -> JsonValue {
+    json!(game.inner())
 }
 
 #[catch(404)]
@@ -74,10 +45,11 @@ fn not_found() -> JsonValue {
 }
 
 fn rocket() -> rocket::Rocket {
+    let game = start();
     rocket::ignite()
         .mount("/", routes![get])
         .register(catchers![not_found])
-        // .manage(Mutex::new(HashMap::<ID, String>::new()))
+        .manage(game)
 }
 
 fn main() {

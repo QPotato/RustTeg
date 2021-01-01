@@ -5,8 +5,10 @@ use map::*;
 
 type ObjectiveTest = fn(Player, &Map) -> bool;
 
+#[derive(juniper::GraphQLObject)]
 pub struct Objective {
     description: &'static str,
+    #[graphql(skip)]
     test: ObjectiveTest,
 }
 
@@ -116,3 +118,17 @@ impl fmt::Debug for Objective {
         self.description.fmt(f)
     }
 }
+
+use serde::Serializer;
+impl Serialize for Objective {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_str(self.description)
+    }
+}
+
+// impl juniper::GraphQLType for Objective {
+    
+// }

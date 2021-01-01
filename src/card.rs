@@ -3,7 +3,7 @@ use super::*;
 use player::*;
 use map::*;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum Symbol {
     Cannon,
     Ship,
@@ -13,7 +13,7 @@ pub enum Symbol {
 
 pub type ExchangeCount = usize;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct Card {
     country: Country,
     symbol: Symbol,
@@ -36,7 +36,7 @@ impl Card {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct CardState {
     card_pool: Vec<Card>,
     player_hands: HashMap<Player, Vec<Card>>,

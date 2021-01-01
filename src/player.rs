@@ -1,8 +1,8 @@
 use super::*;
-use objective::Objective;
+use objective::{Objective, ObjectivePool};
 use serde::{Serialize};
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash, Serialize)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash, Serialize, Deserialize)]
 pub enum Player {
     Red,
     Blue,
@@ -12,7 +12,7 @@ pub enum Player {
     Black
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct PlayerInfo {
     color: Player,
     name: String,
@@ -20,10 +20,10 @@ pub struct PlayerInfo {
 }
 
 impl PlayerInfo {
-    pub fn new(color: Player, name: String) -> Self {
+    pub fn new(color: Player, name: String, objective_pool: &mut ObjectivePool) -> Self {
         PlayerInfo {
             color, name,
-            objective: Objective::new()
+            objective: objective_pool.get()
         }
     }
     pub fn get_color(&self) -> Player {

@@ -44,6 +44,9 @@
 - Player
 - objetivo: una struct que con new() agarre uno del pool
 
+- Cero seguridad y anticheating. Es para jugar entre amigos, no en torneos.
+- Longpolling. Es para jugar entre amigos, no para que sea super eficiente y montar un server para mil personas.
+
 ## Path
 
 1. MVP: browser texto plano, tabla (pais, numero de color), atacar con droplist y boton. conquistar cambia. Estado inicial predefinido.
@@ -65,7 +68,7 @@
 - / GameState tiene que ser serde
 - / JavaScript que toma el gamestate y arma un html
 - / estado inicial
-- Server con rocket que inicie un juego y envie mapa contra request
+- / Server con rocket que inicie un juego y envie mapa contra request
 - Cliente que pida el mapa y lo muestre
 - Input -> Cambio de estado. Exportar funciones para cada accion posible de turno que toman un game state, lo cambian y lo devuelven
 
@@ -79,3 +82,12 @@ y como carajo recibis updates?
 
 - longpolling: sucia pero segura. Te ahorras inconsistencias porque siempre sobreescribis todo y tenes el estado reciente y completo.
 - socket: no se ni como se usan, pero ponele que te conectas, abris un socket y el server te pushea siempre que pasa algo. Hay que aprender cosas raras, me suena a que puede haber inconsistencias, la logica es mas compleja.
+
+
+## Server
+
+- HTTP con rocket
+- En main crea un juego y lo mete al estado
+- Metodos:
+  - GET game: manda el estado del juego completo y el resultado de la ultima accion
+  - POST action: manda una accion y espera un resultado

@@ -6,10 +6,10 @@ use card::*;
 use round::*;
 
 #[wasm_bindgen]
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct Game {
     players: Vec<PlayerInfo>,
-    map: Map,
+    pub map: Map,
     cards: CardState,
     round: Round,
 }
@@ -32,5 +32,4 @@ impl Game {
     pub fn get_map(&self) -> JsValue {
         JsValue::from_serde(&self.map).unwrap()
     }
-
 }
